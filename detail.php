@@ -8,6 +8,12 @@
     <title>Detail Product</title>
 </head>
 <body>
+    <?php 
+    include "proses/koneksi.php";
+    $id=$_GET['beli'];
+    $hasil = mysqli_fetch_array(mysqli_query($valid, "SELECT detail.kode_kamera, detail.merek, kamera.foto, kamera.nama, kamera.harga, kamera.foto, kamera.stok 
+                                                    from detail join kamera on detail.kode_kamera=kamera.kode_kamera where detail.kode_kamera=$id"));
+        ?>
     <!-- AWAL NAVIGASI BAR -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark col-12" style="height: 48px;">
         <div class="container-fluid">
@@ -31,15 +37,16 @@
     <!-- KONTENT UTAMA -->
     <div class="container ms-0 mt-3">
         <div class="row mt-5 offset-1">
-            <h4 class="">Detail Product Kamera</h4>
-          <div class="col-9"> <h2>Nama Product : SONY A5100 kit 16-50mm</h2></div>
+            <h4 class="">Detail Product <?=$hasil["kode_kamera"]?></h4>
+          <div class="col-9"> <h2>Nama Product : <?=$hasil["nama"]?></h2></div>
           <div class="col-4 mt-4">
-            <img src="https://www.jualkamera.com/gambar/produk/04477_1686997385_0_d.JPG" width="90%" alt="KUCING"></div>
+            <img src="gambar/<?=$hasil["foto"]?>" width="90%" alt="KUCING"></div>
           <div class="col-6 mt-4">
             <ul class="navbar-nav">
                 <li class="nav-item"><b>Informasi Produk</b></li>
-                <li>Harga : Rp 3.500.000</li>
-                <li class="mb-3">Stock : 2</li>
+                <li>Merk :  <?=$hasil["merek"]?></li>
+                <li>Harga : Rp <?=$hasil["harga"]?></li>
+                <li class="mb-3">Stock : <?=$hasil["kode_kamera"]?></li>
                 <li><b>Detail Produk</b></li>
                 <li>Kondisi barang : barang baru</li>
                 <li>Kondisi fisik :  masih mulus</li>

@@ -6,18 +6,15 @@ ini_set('display_errors', 1);
         $user = htmlspecialchars($_POST["username"]);
         $pass = htmlspecialchars($_POST["password"]);
 
-        if ($user == "admin" ){
         if ($user == "admin" && $pass == "admin"){            
             session_start();
-            $_SESSION["loggedin"] = true;
-            header('location:home.php');
-            
-            header("Location:home.php");
+            $_SESSION["loggedin"] = "haha";
+            header("Location:MenuAdmin.php");
             exit;
         } else {
             $err = "USERNAME DAN PASSWORD SALAH";
         }
-    }     
+    }
 ?>
 
 <!DOCTYPE html>
@@ -49,10 +46,10 @@ ini_set('display_errors', 1);
             <label for="password" class="form-label text-light">Password</label>
             <input type="password" name="password" class="form-control">
             </div>
-            <div class="mb-3 form-check">
+            <!-- <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">
             <label class="form-check-label text-light" for="exampleCheck1">Check me out</label>
-            </div>
+            </div> -->
             <button type="submit" class="btn btn-primary mb-4">Submit</button>
         </form>
 

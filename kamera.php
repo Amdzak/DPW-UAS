@@ -49,11 +49,9 @@
                 </tr>
             </thead>
             <?php
-            include "koneksi.php";
+            include "proses/koneksi.php";
 
-            /* untuk mengambil 1 baris tabel */
-            $id = $_GET["id"];
-            $sql = "SELECT * FROM detail WHERE id_kamera = $id";
+            $sql = "SELECT * FROM detail ";
             $query = mysqli_query($valid,$sql);
             $barang = mysqli_fetch_assoc($query);
 
