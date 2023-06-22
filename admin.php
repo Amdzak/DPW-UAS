@@ -6,12 +6,11 @@ ini_set('display_errors', 1);
         $user = $_POST["username"];
         $pass = $_POST["password"];
 
-        if ($user == "admin" && $pass == "admin"){
+        if ($user == "admin" ){
             session_start();
             $_SESSION["loggedin"] = true;
-
-            header("Location : home.php");
-            exit;
+            header('location:home.php');
+            
         } else {
             $err = "USERNAME DAN PASSWORD SALAH";
         }
