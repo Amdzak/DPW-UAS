@@ -23,7 +23,7 @@
                 <a class="nav-link active" aria-current="page" href="index.php">Daftar Kamera</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="home.php">Admin page</a>
+                <a class="nav-link" href="admin.php">Admin page</a>
                 </li>
             </ul>
             </div>

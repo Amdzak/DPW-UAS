@@ -1,0 +1,15 @@
+.bd {
+    border: 1px solid white;
+    border-radius: 4%;;
+}
+
+.child {
+    /* width: 50px;
+    height: 50px; */
+    /* background-color: red; */
+    /* Center vertically and horizontally */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
