@@ -76,7 +76,7 @@
                     
 
                     <td>
-                        <a target="_blank" href="detail.php?id=<?php echo htmlspecialchars($data['id_kamera']); ?>" class="btn btn-primary" role="button">Detail</a>
+                        <a target="_blank" href="detail.html?id=<?php echo htmlspecialchars($data['id_kamera']); ?>" class="btn btn-primary" role="button">Detail</a>
                         <a target="_blank" href="beli.php?id=<?php echo htmlspecialchars($data['id_kamera']); ?>" class="btn btn-success" role="button">Beli</a>
                     </td>
                 </tr>
