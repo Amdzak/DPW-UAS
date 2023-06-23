@@ -7,6 +7,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/w3.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
+
   <script>
     function showPopup2() {
         var popup = document.getElementById("popup2");
@@ -114,15 +116,18 @@
   <!-- Navbar (sit on top) -->
   <div class="w3-top">
     <div class="w3-bar w3-wide w3-padding w3-card" style="background-color:#b98daf;"> <!--w3-white-->
-      <a href="Home.php" class="w3-bar-item w3-button"><b>CakZulFi </b>Kamera Store</a>
+      <a href="Home.php" class="w3-bar-item w3-button"><b>Ahmad Anfi </b>Kamera Store</a>
       <div class="w3-right w3-hide-small">
-        <div class="w3-bar-item w3-button dropdown">Menu
+        <div class="w3-bar-item w3-button dropdown" style="color: black;">Menu
           <div class="dropdown-content">
             <a href="#loh" class="w3-bar-item w3-button">Katalog  </a><br>
-            <button href="index.php?beli=" class="w3-bar-item w3-button" onclick="showPopup2()">Beli </button>
+            <a href="transaksi.php" class="w3-bar-item w3-button">Transaksi  </a><br>
+
+            <!-- <button class="w3-bar-item w3-button" onclick="showPopup2()">Beli </button> -->
           </div>
         </div>
-        <button class="w3-bar-item w3-button" style="letter-spacing: 4px;"><a href="admin.php">Admin</a></button>
+        <a href="admin.php" style="color: black;">
+        <button class="w3-bar-item w3-button" style="letter-spacing: 4px;">Admin</button></a>
         <form action="" class="w3-bar-item" style="display:none;"><label for="serahasia">| Password:</label> <input type="text" style="height: 22.5px;" name="serahasia"></form>
       </div>
     </div>
@@ -132,7 +137,7 @@
   <header class="w3-display-container w3-content w3-wide" style="max-width:100%;" id="home">
     <img class="w3-image" src="gambar/BG.png" alt="Wallpaper" width="100%">
     <div class="w3-display-middle w3-margin-top w3-center">
-      <h1 class="w3-xxlarge w3-text-white"><span class="w3-padding w3-black w3-opacity-min"><b>CakZulFi</b></span> <span class="w3-hide-small w3-text-light-grey" style="font-color:black;">Kamera Store</span></h1>
+      <h1 class="w3-xxlarge w3-text-white"><span class="w3-padding w3-black w3-opacity-min"><b>Ahmad Anfi</b></span> <span class="w3-hide-small w3-text-light-grey" style="font-color:black;">Kamera Store</span></h1>
     </div>
   </header>
 
@@ -156,8 +161,8 @@
       <p class="w3-opacity">Kode Kamera : <?php echo $data["kode_kamera"]?></p>
       <p>Stok : <?php echo $data["stok"]?></p>
       <p>Harga : <?php echo $data["harga"]?></p>
-      <a href="detail.php?beli='<?php echo htmlspecialchars($data['kode_kamera']); ?>'">
-        <p><button class="w3-button w3-light-grey w3-block">Detail Kamera</button></p>
+      <a href="index.php?id=<?php echo htmlspecialchars($data['kode_kamera']); ?>">
+        <p><button class="w3-button w3-light-grey w3-block">Beli Kamera</button></p>
       </a>
     </div>
     <?php } ?>
@@ -169,11 +174,11 @@
   <!-- Form Update -->
   <div id="popup2" class="container ok" style="
     <?php
-      // if(isset($_GET['beli'])) {
-      //   echo("
-      //   display:block;
-      //         ");
-      // }
+      if(isset($_GET['id'])) {
+        echo("
+        display:block;
+              ");
+      }
     ?>
     ">
 
@@ -188,6 +193,31 @@
           die("gagal terhubung dengan database: " . mysqli_connect_error());
       }
       ?>
+        <?php
+      include("proses/koneksi.php");
+      if(isset($_GET['id']) ) {
+      $id = $_GET['id'];
+      $sql = "SELECT * FROM kamera WHERE kode_kamera='$id'";
+      $query = mysqli_query($valid, $sql);
+      $kamera = mysqli_fetch_assoc($query);
+      // print_r($kamera);
+      if( mysqli_num_rows($query) < 1 ) {
+          die("data tidak ditemukan...");
+      $foto = $_FILES['foto']['name'];
+      $tmp = $_FILES['foto']['tmp_name'];
+      $folderFoto = "gambar/";
+      move_uploaded_file($tmp, $folderFoto.$foto);
+      $sql = "INSERT INTO kamera (kode_kamera, nama, harga, stok, foto) VALUES ('$id', '$nama', '$harga', '$stok', '$foto')";
+      $hasil = mysqli_query($valid, $sql);
+      if ($hasil) {
+          header("Location: MenuAdmin.php");
+      } else {
+          echo "<div class='alert alert-danger'>Data Gagal disimpan.</div>";
+          header("Location: MenuAdmin.php");
+
+      }
+              }}
+      ?>
       <h2>Form Pembelian</h2>
       <form action="proses/tambahTransaksi.php" method="post" enctype="multipart/form-data">
           <fieldset>
@@ -201,25 +231,27 @@
                   <label>, Nama Barang : <?php //$barang['nama_barang'] ?></label>
                   <input type="hidden" name="id" value="<?php// $barang['id'] ?>"> 
                </div> -->
-              <div class="form-group">
-                  <input type="hidden" name="nama" class="form-control" placeholder=" Nama Barang" value="<?php echo $barang['nama_barang'] ?>"/>
+               <div class="form-group">
+              <label>Nama Kamera: </label>
+              <input type="text" name="nama" class="form-control" placeholder=" Nama Barang" value="<?php echo $kamera['nama'] ?>"/>
               </div>
               <div class="form-group">
                   <label>Kode Kamera: </label>
-                  <input type="text" name="kode" class="form-control" placeholder="Jumlah Pembelian"/>
+                  <input readonly type="text" name="kode" class="form-control" placeholder="Kode Kamera" value="<?php echo $kamera['kode_kamera'] ?>"/>
               </div>
               <div class="form-group">
                   <label>Jumlah Pembelian: </label>
-                  <input type="text" name="jumlah" class="form-control" placeholder="Jumlah Pembelian"/>
+                  <input type="text" name="jumlah" class="form-control" placeholder="Jumlah Pembelian" />
               </div>
               <div class="form-group">
                   <label>Nama Pembeli: </label>
                   <input type="text" name="pembeli" class="form-control" placeholder="Nama Pembeli"/>
               </div>
-              <br>
               <p>
-                  <input type="submit" value="Beli" name="simpan">
-                  <input type="button" value="Kembali" onclick="history.back(-1)" style="margin-left:50px;">
+                <center>
+                  <input class="btn btn-warning" type="submit" value="Beli" name="simpan">
+                </center>
+                  <!-- <input type="button" value="Kembali" onclick="history.back(-1)" style="margin-left:50px;"> -->
               </p>
           </fieldset>
       </form>

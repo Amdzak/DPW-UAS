@@ -86,13 +86,13 @@
                         //     background: linear-gradient(to right, #e0c3fc, #8ec5fc);
                         //     font-family: Arial, sans-serif;
                         //     }
-                        .ok{background-color: cyan;}                    
+                        .ok{background-color: #c4c396;}                    
                         #popup2{display:block;}  
                     ");
                 }
                 // if(isset($_GET['id'])) {
                 //     echo("
-                //     ok{background-color: cyan;}                    
+                //     ok{background-color: #c4c396;}                    
                 //     ");
                 // }
                 ?>
@@ -102,7 +102,7 @@
     <!-- AWAL NAVIGASI BAR -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark col-12" style="height: 48px;">
         <div class="container-fluid">
-            <a class="navbar-brand col-4 offset-1" href="#"><h3>Ahmad Anfi Camera</h3> </a>
+            <a class="navbar-brand col-9 offset-1" href="#"><h3>Ahmad Anfi Camera</h3> </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -112,7 +112,7 @@
                 <a class="nav-link active me-1 btn-primary btn text-light" aria-current="page" href="index.php">Home</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link active me-1 btn-info btn text-black" href="home.php">Admin page</a>
+                <!-- <a class="nav-link active me-1 btn-info btn text-black" href="home.php">Admin page</a> -->
                 </li>
             </ul>
             </div>
@@ -205,7 +205,7 @@
                 $sql = "SELECT * FROM kamera WHERE kode_kamera='$id'";
                 $query = mysqli_query($valid, $sql);
                 $kamera = mysqli_fetch_assoc($query);
-                print_r($kamera);
+                // print_r($kamera);
                 if( mysqli_num_rows($query) < 1 ) {
                     die("data tidak ditemukan...");
                 $foto = $_FILES['foto']['name'];
@@ -294,7 +294,7 @@
         }
     }
 ?>
-        <div id="popup" class="container ok" style="background  -color:cyan;">
+        <div id="popup" class="container ok" style="background-color:#c4c396;">
             <div class="container anim">
     <h2>Input Data Kamera</h2>
     <form action="MenuAdmin.php" method="post" enctype="multipart/form-data">
@@ -362,7 +362,7 @@
             $jumlah_data = mysqli_num_rows($sql);
             $total_halaman = ceil($jumlah_data / $batas);
 
-            $hasil = mysqli_query($valid, "select tr.id_transaksi, tr.kode_kamera, tr.jumlah, tr.nama_pelanggan, kamera.nama from transaksi tr join kamera on tr.kode_kamera=kamera.kode_kamera order by kode_kamera desc limit $halaman_awal, $batas");
+            $hasil = mysqli_query($valid, "select tr.id_transaksi, tr.kode_kamera, tr.jumlah, tr.nama_pelanggan, kamera.nama from transaksi tr left join kamera on tr.kode_kamera=kamera.kode_kamera order by kode_kamera desc limit $halaman_awal, $batas");
             $no = $halaman_awal + 1;
             while($data = mysqli_fetch_array($hasil)) {
             ?>
@@ -376,7 +376,7 @@
                     <td><?php echo $data["nama_pelanggan"]?></td>
                     
                     <td>
-                        <a href="proses/hapus.php?id=<?php echo htmlspecialchars($data['kode_kamera']); ?>" class="btn btn-danger" role="button">Hapus</a>
+                        <a href="proses/hapusTransaksi.php?id=<?php echo htmlspecialchars($data['id_transaksi']); ?>" class="btn btn-danger" role="button">Hapus</a>
                         <!-- <a href="MenuAdmin.php?id  =<?php echo htmlspecialchars($data['kode_kamera']); ?>" class="btn btn-warning" role="button">Ubah</a> -->
                     </td>
                 </tr>
